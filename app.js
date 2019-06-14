@@ -33,18 +33,19 @@ function startGame() {
         var list = document.createElement('button');
         list.innerHTML = alphabet[i].toUpperCase();
         list.setAttribute('value', alphabet[i]);
-        list.id = 'letters';
-        list.setAttribute('class', 'btn');
+        list.id = alphabet[i];
+        list.setAttribute('class', 'btn letters');
         let letter = list.getAttribute('value');
         list.addEventListener('click', (event) => {
           updateLetter(letter);
-          win();
+          document.getElementById(event.target.id).setAttribute('class','btn letters-hidden letters');
         });
         document.getElementById('alphabet').appendChild(list);
       };
+      
     //reset
-    wrongLetter = [];
     guessesLeft = 9;
+    
 
 }
 
@@ -56,6 +57,9 @@ var updateLetter = (letter) => {
         underScores[k] = letter;
         console.log(underScores);
         document.getElementById('answer').innerHTML = underScores.join(" ");
+        if (!underScores.includes('_')) {
+          win();
+        }
       }
     }
   } else if (randomWord[k] !== letter) {
@@ -79,37 +83,18 @@ var updateLetter = (letter) => {
     } else if (wrongLetter.length == 9) {
       sadBoiDy();
       youLose();
+      list.setAttribute('id', 'letters-hidden')
     }
     guessesLeft--;
-    list.setAttribute('id', 'letters-hidden');
     console.log(guessesLeft);
     console.log(wrongLetter);
   }
 }
 
-  document.onkeyup = function(event) {
-    userGuesses = event.key;
-
-    if (randomWord.indexOf(userGuesses) > -1) {
-      for (var k = 0; k < randomWord.length; k++) {
-        if (randomWord[k] === userGuesses) {
-          underScores[k] = userGuesses;
-          console.log(underScores);
-          document.getElementById('answer').innerHTML = underScores.join(" ");
-        }
-      }
-    } else {
-      wrongLetter.push(userGuesses);
-      guessesLeft--;
-      console.log(guessesLeft);
-    }
-  }
+  
 
 function win() {
-  let res = Array.from(randomWord);
-  if (result === underScores) {
     document.getElementById('result').innerHTML = " YOU WIN ! ";
-  }
 }
 
 function draw() {
@@ -267,13 +252,5 @@ function youLose() {
 */
 // questions
 
-
-// answers
-// value-answer must have its key-question
-// answer-holder must also have an "_" character for each character in the string-answer
-// each character in the answer/answer-holder string/array/object, must expect a specific value(which should come from the alphabet buttons)
-// each of the alphabet buttons should have its onClick method, when clicked it will call a check() function to check if it matches one of the
-// characters in the answer-holder
-//
 
 startGame();
