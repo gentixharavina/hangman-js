@@ -10,7 +10,7 @@ var correctGuess = [];
 //Get the users guess
 //Check if its right
 const songs = ['Baresha', 'Fellenza', 'La Reina', 'ROFE', 'Kurgjo nuk Kallxojna', 'Deja Vu', 'Papuqe Gucci']
-const words = ['prizren', 'imbus', 'liverpool', 'miami', 'budapest', 'peja', 'prishtina', 'ketamina'];
+const words = ['albania', 'india', 'japan', 'nepal', 'italy', 'france', 'germany', 'scotland', 'kosova', 'california', 'croatia'];
 const canvas = document.getElementById('hangman');
 const context = canvas.getContext('2d');
 
@@ -58,6 +58,7 @@ var updateLetter = (letter) => {
         console.log(underScores);
         document.getElementById('answer').innerHTML = underScores.join(" ");
         if (!underScores.includes('_')) {
+          document.getElementById(letter).setAttribute('class','btn letters-hidden letters');
           win();
         }
       }
@@ -83,7 +84,9 @@ var updateLetter = (letter) => {
     } else if (wrongLetter.length == 9) {
       sadBoiDy();
       youLose();
-      list.setAttribute('id', 'letters-hidden')
+      list.setAttribute('id', 'letters-hidden');
+    } else {
+      document.getElementById('letters').setAttribute('class','btn letters-hidden letters');
     }
     guessesLeft--;
     console.log(guessesLeft);
@@ -91,10 +94,21 @@ var updateLetter = (letter) => {
   }
 }
 
-  
+function reset() {
+  document.location.href = '';
+}
 
 function win() {
-    document.getElementById('result').innerHTML = " YOU WIN ! ";
+  
+  let resetB = document.createElement('button');
+  resetB.id = 'reset';
+  resetB.innerHTML = " Play Again ? ";
+  document.getElementById('resetButton').appendChild(resetB);
+  let resetButton = document.getElementById('reset');
+   resetButton.addEventListener('click', () => {
+     reset();
+   })
+   document.getElementById('result').innerHTML = " YOU WIN ! ";
 }
 
 function draw() {
